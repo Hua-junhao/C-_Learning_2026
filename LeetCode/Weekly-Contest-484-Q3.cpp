@@ -1,34 +1,33 @@
+#include <vector>
+#include <string>
+#include <unordered_map> 
+using namespace std;
 class Solution {
 private:
-    bool is_same(string s1,string s2)
+    string get_key(string s)
     {
-        if (s1.size()!=s2.size()) return 0;
-        else
+        int diff = s[0] - 'a'; 
+        for (int i = 0; i < s.size(); i++)
         {
-            int n=(s1[0]-s2[0]+26)%26;
-            for (int i=1;i<s1.size();i++)
-            {
-                if( (s1[i]-s2[i]+26)%26!=n)
-                {
-                    return 0;
-                }
+            int val = s[i] - diff;           
+            if (val < 'a') {
+                val += 26;
             }
+            s[i] = val; 
         }
-        return 1;
+        return s; 
     }
+
 public:
     long long countPairs(vector<string>& words) 
     {
-        long long n=0;
-        for (int i=0;i<words.size()-1;i++)
+        long long n = 0;
+        unordered_map<string, int> map; 
+        for (const string& word : words)
         {
-            for(int j=i+1;j<words.size();j++)
-            {
-                if (is_same(words[i],words[j]))
-                {
-                    n++;
-                }
-            } 
+            string key = get_key(word);           
+            n += map[key]; 
+            map[key]++;
         }
         return n;    
     }
