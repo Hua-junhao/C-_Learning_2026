@@ -41,9 +41,7 @@ public:
             }
         }
         string ls=s.substr(start,maxlen);
-        return ls;
-
-        
+        return ls;    
     }
 };
 // @lc code=end
