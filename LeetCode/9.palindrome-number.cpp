@@ -8,23 +8,16 @@
 class Solution {
 public:
     bool isPalindrome(int x) {
-        vector<int>v;
-        int num=x;
-        if(x<0) return false;
-        while (num>0)
-        {
-            v.push_back(num%10);
-            num/=10;
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
         }
-        int left=0;
-        int right=v.size()-1;
-        while (left<=right)
-        {
-            if(v[left]!=v[right]) return false;
-            left++;
-            right--;
+        int reversedHalf = 0;
+        while (x > reversedHalf) {
+            reversedHalf = reversedHalf * 10 + x % 10;
+            x /= 10;
         }
-        return true;       
+        return x == reversedHalf || x == reversedHalf / 10;
+    }    
     }
 };
 // @lc code=end
