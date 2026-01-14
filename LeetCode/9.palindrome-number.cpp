@@ -17,22 +17,12 @@ public:
             num/=10;
         }
         int left=0;
-        int right=0;
-        if(v.size()%2==1) 
-        {
-            left=v.size()/2;
-            right=left;
-        }
-        if(v.size()%2==0)
-        {
-            left=v.size()/2-1;
-            right=left+1;
-        }
-        while (left>=0&&right<v.size())
+        int right=v.size()-1;
+        while (left<=right)
         {
             if(v[left]!=v[right]) return false;
-            left--;
-            right++;
+            left++;
+            right--;
         }
         return true;       
     }
