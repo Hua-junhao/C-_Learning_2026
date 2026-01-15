@@ -15,8 +15,24 @@ public:
     {
         int v1=min(height[left],height[right])*(right-left);
         if(v1>v) v=v1;
-        if(height[left]>height[right]) right--;
-        else left++;
+        if(height[left]>height[right]) 
+        {
+            int old=height[right];
+            right --;
+            while(left<right&&height[right]<=old)
+            {
+                right--;
+            }
+        }
+        else 
+        {
+            int old=height[left];
+            left++;
+            while(left<right&&height[left]<=old)
+            {
+                left++;
+            }
+        }
     }
     return v;
     }
