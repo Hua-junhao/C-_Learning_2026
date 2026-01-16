@@ -6,25 +6,29 @@
 
 // @lc code=start
 class Solution {
+private:
+    inline int getValue(char c) {
+        switch(c) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0;
+        }
+    }
 public:
     int romanToInt(string s) {
         int integer=0;
-        unordered_map <char,int>store={{'I',1},{'V',5},{'X',10},{'L',50},{'C',100},{'D',500},{'M',1000}};
-        int i=0;
-        while(i<s.size()-1)
+        int n=s.size();
+        for(int i=0;i<n;i++)
         {
-            if(store[s[i+1]]>store[s[i]]) 
-            {
-                integer+=store[s[i+1]]-store[s[i]];
-                i+=2;
-            }
-            else
-            {
-                integer+=store[s[i]];
-                i++;
-            }
+            int num=getValue(s[i]);
+            if(i<n-1&&num<getValue(s[i+1]))  integer-=num;
+            else integer+=num;
         }
-        if(i!=s.size()) integer+=store[s[s.size()-1]];
         return integer;
         
     }
