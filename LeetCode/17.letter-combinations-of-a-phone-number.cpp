@@ -8,17 +8,18 @@
 class Solution {
 public:
     vector<string>result;
-    void func(vector<string>str,int i,int n,string s)
+    void func(const vector<string>&str,int i,int n,string& s)
     {
         if(i==n)
         {
             result.push_back(s);
-            s="";
             return;
         }
         for(char c:str[i])
         {
-            func(str,i+1,n,s+c);
+            s.push_back(c);
+            func(str,i+1,n,s);
+            s.pop_back();
         }
 
     }
@@ -30,8 +31,8 @@ public:
         {
             str.push_back(arr[digits[i]-'2']);
         }
-        
-        func(str,0,n,"");
+        string s="";
+        func(str,0,n,s);
         return result;    
     }
 };
