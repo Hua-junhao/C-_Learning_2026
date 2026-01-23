@@ -5,19 +5,16 @@
  */
 
 // @lc code=start
-#include <unordered_set>
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        int l=0;
-        unordered_set<int>uset;
-        for(int i=0;i<nums.size();i++)
+        int l=1;
+        for(int i=1;i<nums.size();i++)
         {
-            if(uset.find(nums[i])==uset.end())
+            if(nums[i]!=nums[l-1])
             {
                 nums[l]=nums[i];
                 l++;
-                uset.insert(nums[i]);
             }
         }
         return l;
