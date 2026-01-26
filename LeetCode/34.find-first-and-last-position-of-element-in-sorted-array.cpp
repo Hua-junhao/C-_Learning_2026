@@ -9,11 +9,13 @@ class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         int l=0,r=nums.size()-1;
-        while (l<=r)
+        vector<int>result{-1,-1};
+        while (l<=r)//找左端点
         {
             int mid=l+(r-l)/2;
-            if(nums[mid]>target)
+            if(nums[mid]==target)
             {
+                result[0]=mid;
                 r=mid-1;
             }
             else if(nums[mid]<target)
@@ -22,27 +24,28 @@ public:
             }
             else
             {
-                l=mid;
-                r=mid;
-                break;
+                r=mid-1;
             }
         }
-        if(l>r)
+        l=0,r=nums.size()-1;
+        while (l<=r)//找右端点
         {
-            return {-1,-1};
-        }
-        else
-        {
-            while(l>0&&nums[l-1]==target)
+            int mid=l+(r-l)/2;
+            if(nums[mid]==target)
             {
-                l--;
+                result[1]=mid;
+                l=mid+1;
             }
-            while(r<nums.size()-1&&nums[r+1]==target)
+            else if(nums[mid]<target)
             {
-                r++;
+                l=mid+1;
+            }
+            else
+            {
+                r=mid-1;
             }
         }
-        return {l,r};
+        return result;
         
     }
 };
