@@ -1,0 +1,21 @@
+#include<iostream>
+#include<string>
+using namespace std;
+#include<algorithm> 
+int main()
+{
+    int n;
+    string a,b;
+    cin>>n;
+    cin>>a>>b;
+    string rev_a = a;
+    reverse(rev_a.begin(), rev_a.end());
+    if(rev_a==b)
+    {
+        cout<<a<<" and "<<b<<" are reverse."<<endl;
+    }
+    else{
+        cout<<a<<" and "<<b<<" are not reverse."<<endl;
+    }
+
+}
