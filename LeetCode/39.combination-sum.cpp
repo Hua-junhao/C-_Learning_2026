@@ -32,6 +32,8 @@ public:
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        result.clear();
+        v.clear();
         sort(candidates.begin(),candidates.end());
         func(candidates,target,0);
         return result;
