@@ -8,45 +8,33 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        string result="";
-        string a="";
-        int i=s.size()-1;
-        while(i>=0)
+        int l=0;
+        for(int r=0;r<s.size();r++)
         {
-            if(s[i]==' ')
+            if(s[r]!=' ')
             {
-                if(a!="")
+                if(l!=0)
                 {
-                   if(result=="") 
-                   {
-                     result=a;
-                   }
-                   else
-                   {
-                     result+=" "+a;
-                   }
+                    s[l++]=' ';
                 }
-                a="";  
             }
-            else
+            while(r<s.size()&&s[r]!=' ')
             {
-                a=s[i]+a;
+                s[l++]=s[r++];
             }
-            i--;
         }
-        if (a!="")
+        s.resize(l);
+        reverse(s.begin(),s.end());
+        l=0;
+        for(int r=0;r<=s.size();r++)
         {
-            if(result=="") 
+            if(r==s.size()||s[r]==' ')
             {
-                result=a;
-            }
-            else
-            {
-                result+=" "+a;
+                reverse(s.begin()+l,s.begin()+r);
+                l=r+1;
             }
         }
-        return result;
-
+        return s;
     }
 };
 // @lc code=end
