@@ -8,23 +8,27 @@
 class Solution {
 public:
     vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
-        vector<int> v=nums;
-        sort(v.begin(),v.end());
-        unordered_map<int,int>map;
-        int n=nums.size();
-        for(int i=0;i<n;i++)
-        {
-            if(map.find(v[i])==map.end())
+       int a[101]={0};
+       int n=nums.size();
+       for(int i:nums)
+       {
+            a[i]++;
+       }
+       for(int i=1;i<101;i++)
+       {
+            a[i]+=a[i-1];
+       }
+       vector<int>result;
+       for(int i:nums)
+       {
+            if(i==0)
             {
-                map[v[i]]=i;
+               result.push_back(0);
+               continue;  
             }
-        }
-        vector<int>result;
-        for(int i=0;i<n;i++)
-        {
-            result.push_back(map[nums[i]]);
-        }
-        return result;
+            result.push_back(a[i-1]);
+       }
+       return result;
         
     }
 };
