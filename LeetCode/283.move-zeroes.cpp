@@ -13,13 +13,13 @@ public:
         {
             if(nums[r]!=0)
             {
-                nums[l]=nums[r];
+                
+                if(l!=r)
+                {
+                    swap(nums[l],nums[r]);
+                }
                 l++;
             }
-        }
-        for(int i=l;i<nums.size();i++)
-        {
-            nums[i]=0;
         }
         
     }
