@@ -10,20 +10,9 @@ public:
     void rotate(vector<int>& nums, int k) {
         int n=nums.size();
         k=k%n;
-        vector<int>result;
-        int j=(n-k)%n,i=(j+1)%n;
-        if(j==0)
-        {
-            return;
-        }
-        result.push_back(nums[j]);
-        while(i!=j)
-        {
-            result.push_back(nums[i]);
-            i=(i+1)%n;
-        }
-        nums=result;
-        
+        reverse(nums.begin(),nums.end());
+        reverse(nums.begin(),nums.begin()+k);
+        reverse(nums.begin()+k,nums.end());
     }
 };
 // @lc code=end
