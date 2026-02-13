@@ -9,24 +9,19 @@ class Solution {
 public:
     int pivotIndex(vector<int>& nums) {
         int n=nums.size();
+        int sum=0;
+        int leftsum=0;
+        for (int s:nums)
+        {
+            sum+=s;
+        }
         for(int i=0;i<n;i++)
         {
-            int lsum=0,rsum=0;
-            int l=0,r=n-1;
-            while(l<i)
-            {
-                lsum+=nums[l];
-                l++;
-            }
-            while(r>i)
-            {
-                rsum+=nums[r];
-                r--;
-            }
-            if(lsum==rsum)
+            if(sum-nums[i]==leftsum*2)
             {
                 return i;
             }
+            leftsum+=nums[i];
         }
         return -1;
     }
