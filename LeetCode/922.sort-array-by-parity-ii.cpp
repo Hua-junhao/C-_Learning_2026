@@ -8,25 +8,25 @@
 class Solution {
 public:
     vector<int> sortArrayByParityII(vector<int>& nums) {
-        int i=0,j=1;
+        int odd=1,even=0;
         int n=nums.size();
-        while(i<n-1)
+        while(odd<n&&even<n)
         {
-            if(i%2==nums[i]%2)
+            while(even<n&&nums[even]%2==0)
             {
-                i++;
-                j=i+1;
+                even+=2;
             }
-            else
+            while(odd<n&&nums[odd]%2==1)
             {
-                while(nums[j]%2!=i%2)
-                {
-                    j++;
-                }
-                swap(nums[i],nums[j]);
+                odd+=2;
+            }
+            if(odd<n&&even<n)
+            {
+                swap(nums[even],nums[odd]);
             }
         }
         return nums;
+         
     }
 };
 // @lc code=end
