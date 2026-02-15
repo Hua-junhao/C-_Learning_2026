@@ -26,14 +26,7 @@ public:
                 return false;
             }
         }
-        if (i==n&&j==m)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return i==n;
         
     }
 };
