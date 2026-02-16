@@ -8,43 +8,57 @@
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        vector<char>v1;
-        vector<char>v2;
-        for(char c:s)
+        int i=s.size()-1,j=t.size()-1,skips=0,skipt=0;
+        while (i>=0||j>=0)
         {
-            if(c!='#')
+            while(i>=0)
             {
-                v1.push_back(c);
+                if(s[i]=='#')
+                {
+                    skips++;
+                }
+                else if(skips>0)
+                {
+                    skips--;
+                }
+                else
+                {
+                    break;
+                }
+                i--;
             }
-            else if(v1.size()>0)
+            while(j>=0)
             {
-                v1.pop_back();
+                if(t[j]=='#')
+                {
+                    skipt++;
+                }
+                else if(skipt>0)
+                {
+                    skipt--;
+                }
+                else
+                {
+                    break;
+                }
+                j--;
             }
-        }
-        for(char c:t)
-        {
-            if(c!='#')
+            if(i>=0&&j>=0)
             {
-                v2.push_back(c);
+                if(s[i]!=t[j])
+                {
+                    return false;
+                }
             }
-            else if(v2.size()>0)
-            {
-                v2.pop_back();
-            }
-        }
-        int n=v1.size();
-        if(n!=v2.size())
-        {
-            return false;
-        }
-        for(int i=0;i<n;i++)
-        {
-            if(v1[i]!=v2[i])
+            else if(i>=0||j>=0)
             {
                 return false;
             }
+            i--;
+            j--;
         }
         return true;
+
     }
 };
 // @lc code=end
