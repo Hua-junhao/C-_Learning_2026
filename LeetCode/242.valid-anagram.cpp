@@ -8,28 +8,27 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char,int>map;
-        if(s.size()!=t.size())
+        if (s.size() != t.size()) 
         {
             return false;
         }
+        int arr[26]={0};
         for(char c:s)
         {
-            map[c]++;
+            arr[c-'a']++;
         }
-        for(char c:t)
+        for (char c:t)
         {
-            if(map.find(c)==map.end()||map[c]<=0)
+            arr[c-'a']--;
+        }        
+        for(int i:arr)
+        {
+            if(i!=0)
             {
                 return false;
             }
-            else
-            {
-                map[c]--;
-            }
         }
         return true;
-        
     }
 };
 // @lc code=end
