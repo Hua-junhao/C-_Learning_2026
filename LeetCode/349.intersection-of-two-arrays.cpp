@@ -8,18 +8,18 @@
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        unordered_set<int>set;
+        vector<int>result;
+        int nums[1001]={0};
         for(int i:nums1)
         {
-            set.insert(i);
-        }       
-        vector<int>result;
+            nums[i]=1;
+        }  
         for(int i:nums2)
         {
-            if(set.find(i)!=set.end())
+            if(nums[i]==1)
             {
                 result.push_back(i);
-                set.erase(i);
+                nums[i]=0;
             }
         }
         return result;
