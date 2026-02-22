@@ -19,13 +19,14 @@ public:
         return sum;
     }
     bool isHappy(int n) {
-        unordered_set<int>set;
-        while(n!=1&&set.find(n)==set.end())
+        int slow=n;
+        int fast=powsum(n);
+        while(slow!=fast&&fast!=1)
         {
-            set.insert(n);
-            n=powsum(n);
-        }
-        return n==1;
+            slow=powsum(slow);
+            fast=powsum(powsum(fast));
+        }        
+        return fast==1;
         
     }
 };
