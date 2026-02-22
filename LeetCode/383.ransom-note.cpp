@@ -8,15 +8,20 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<char,int>map;
+        int arr[26]={0};
+        if(ransomNote.size()>magazine.size())
+        {
+            return false;
+        }
         for(char c:magazine)
         {
-            map[c]++;
+            arr[c-'a']++;
         }
         for(char c:ransomNote)
         {
-            map[c]--;
-            if(map[c]<0)
+            int i=c-'a';
+            arr[i]--;
+            if(arr[i]<0)
             {
                 return false;
             }   
