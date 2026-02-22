@@ -12,24 +12,20 @@ public:
         int sum=0;
         while (n>0)
         {
-            sum+=pow(n%10,2);
+            int a=n%10;
+            sum+=a*a;
             n/=10;
         }
         return sum;
     }
     bool isHappy(int n) {
         unordered_set<int>set;
-        set.insert(n);
-        while(n!=1)
+        while(n!=1&&set.find(n)==set.end())
         {
-            n=powsum(n);
-            if(set.find(n)!=set.end())
-            {
-                return false;
-            }
             set.insert(n);
+            n=powsum(n);
         }
-        return true;
+        return n==1;
         
     }
 };
