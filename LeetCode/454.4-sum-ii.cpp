@@ -9,7 +9,9 @@ class Solution {
 public:
     int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
         int count=0;
+        int n=nums1.size();
         unordered_map<int,int>map;
+        map.reserve(n*n);
         for(int i:nums1)
         {
             for(int j:nums2)
@@ -23,9 +25,10 @@ public:
             for(int j:nums4)
             {
                 int sum=-i-j;
-                if(map.find(sum)!=map.end())
+                auto it=map.find(sum);
+                if(it!=map.end())
                 {
-                    count+=map[sum];
+                    count+=it->second;
                 }
             }
         }
