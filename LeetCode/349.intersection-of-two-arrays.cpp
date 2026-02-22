@@ -12,19 +12,15 @@ public:
         for(int i:nums1)
         {
             set.insert(i);
-        }   
-        unordered_set<int>set2;     
+        }       
         vector<int>result;
         for(int i:nums2)
         {
             if(set.find(i)!=set.end())
             {
-                set2.insert(i);
+                result.push_back(i);
+                set.erase(i);
             }
-        }
-        for(int i:set2)
-        {
-            result.push_back(i);
         }
         return result;
     }
