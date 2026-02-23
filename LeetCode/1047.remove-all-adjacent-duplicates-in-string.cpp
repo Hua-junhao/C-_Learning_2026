@@ -8,19 +8,19 @@
 class Solution {
 public:
     string removeDuplicates(string s) {
-        int i=0;
-        int n=s.size();
-        if(n==1) return s;
-        while(i<n-1)
+        string result;
+        for(char c:s)
         {
-            if(s[i]==s[i+1]){
-                n-=2;
-                s.erase(i,2);
-                if(i>0)i--;
+            if(!result.empty()&&c==result.back())
+            {
+                result.pop_back();
             }
-            else i++;
+            else
+            {
+                result.push_back(c);
+            }
         }
-        return s;
+        return result;
     }
 };
 // @lc code=end
