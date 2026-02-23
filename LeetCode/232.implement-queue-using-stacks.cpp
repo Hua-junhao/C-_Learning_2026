@@ -19,15 +19,7 @@ public:
     }
     
     int pop() {
-        if(stackOut.empty())
-        {
-            while (!stackIn.empty())
-            {
-                stackOut.push(stackIn.top());
-                stackIn.pop();
-            }
-        }
-        int result=stackOut.top();
+        int result=this->peek();
         stackOut.pop();
         return result;
     }
@@ -45,11 +37,7 @@ public:
     }
     
     bool empty() {
-        if(stackIn.empty()&&stackOut.empty())
-        {
-            return true;
-        }
-        return false;
+        return stackIn.empty()&&stackOut.empty();
     }
 };
 
