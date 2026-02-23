@@ -8,27 +8,31 @@
 class Solution {
 public:
     bool isValid(string s) {
-        string a="";
+        string st="";
         for (char c: s)
         {
-            if(c=='('||c=='['||c=='{')
+            if (c == '(') 
             {
-                a.push_back(c);
-            }
-            else
+                st.push_back(')');
+            } 
+            else if (c == '{') 
             {
-                if(a.empty()) return false;
-                if ((c == ')' && a.back() == '(')||(c == ']' && a.back() == '[')||(c == '}' && a.back() == '{')) 
+                st.push_back('}');
+            } 
+            else if (c == '[') 
+            {
+                st.push_back(']');
+            } 
+            else 
+            {
+                if (st.empty() || st.back() != c)
                 {
-                    a.pop_back();
-                }
-                else{
                     return false;
                 }
+                st.pop_back();
             }
         }    
-        if(a.empty()) return true;
-        return false;
+        return st.empty();
     }
 };
 // @lc code=end
