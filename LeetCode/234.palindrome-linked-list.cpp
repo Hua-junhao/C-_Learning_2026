@@ -48,6 +48,7 @@ public:
             tmp1=tmp1->next;
             tmp2=tmp2->next;
         }
+        reverseList(secondhead);
         return true;
     }
 };
