@@ -10,9 +10,13 @@ public:
     vector<string> commonChars(vector<string>& words) {
         int n=words.size();
         int arr1[26]={0};//统计各字符串单个字符的最少个数
-        for(int i=0;i<n;i++)
+        for(char c:words[0])
         {
-            string s=words[i];
+            arr1[c-'a']++;
+        }
+        for(int i=1;i<n;i++)
+        {
+            const string& s = words[i];
             int arr2[26]={0};
             for(char c:s)
             {
@@ -20,17 +24,15 @@ public:
             }
             for(int j=0;j<26;j++)
             {
-                if(i==0||arr2[j]<arr1[j]) arr1[j]=arr2[j];
+                if(arr2[j]<arr1[j]) arr1[j]=arr2[j];
             }
         }
         vector<string>result;
         for(int i=0;i<26;i++)
         {
-            char c=i+'a';
-            string s(1,c);
             while(arr1[i]>0)
             {
-                result.push_back(s);
+                result.push_back(string(1,i+'a'));
                 arr1[i]--;
             }
         }
