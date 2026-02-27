@@ -18,24 +18,11 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* pre=nullptr;
-        ListNode* head;
-        if(list1==nullptr&&list2==nullptr) return nullptr;
-        else if(list1==nullptr||(list2!=nullptr&&list2->val<list1->val))
+        ListNode* dummyhead=new ListNode(0);
+        ListNode* pre=dummyhead;
+        while(list1!=nullptr&&list2!=nullptr)
         {
-            head=list2;
-            pre=list2;
-            list2=list2->next;
-        }
-        else
-        {
-            head=list1;
-            pre=list1;
-            list1=list1->next;
-        }
-        while(list1!=nullptr||list2!=nullptr)
-        {
-            if(list1==nullptr||(list2!=nullptr&&list2->val<list1->val))
+            if(list1->val>list2->val)
             {
                 pre->next=list2;
                 pre=list2;
@@ -48,7 +35,17 @@ public:
                 list1=list1->next;
             }
         }
-        return head;
+        if(list1!=nullptr)
+        {
+            pre->next=list1;
+        }
+        else
+        {
+            pre->next=list2;
+        }
+        ListNode* result=dummyhead->next;
+        delete dummyhead;
+        return result;
     }
 };
 // @lc code=end
