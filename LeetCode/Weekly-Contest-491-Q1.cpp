@@ -1,14 +1,18 @@
 class Solution {
+private:
+    bool isVowel(char c)
+    {
+        return c=='a'|| c=='e' || c=='i' || c=='o' || c=='u';
+    }
 public:
     string trimTrailingVowels(string s) {
-        int k=0;
-        vector<char>v={'a', 'e', 'i', 'o', 'u'};
-        int j=s.size()-1;
-        while(j>=0&&find(v.begin(),v.end(),s[j])!=s.end())
+        int n=s.size();
+        int i=n-1;
+        while(i>=0&&isVowel(s[i]))
         {
-            j--;
+            i--;
         }
-        s.erase(j+1,s.size()-j-1)
+        s.resize(i+1);
         return s;
     }
 };
