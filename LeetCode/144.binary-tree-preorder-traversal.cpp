@@ -18,16 +18,19 @@
  */
 class Solution {
 public:
-    void traversal(TreeNode* cur,vector<int>&vec)
-    {
-        if(cur==nullptr) return;
-        vec.push_back(cur->val);
-        traversal(cur->left,vec);
-        traversal(cur->right,vec);
-    }
     vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*>st;
         vector<int>result;
-        traversal(root,result);
+        if(root==nullptr) return result;
+        st.push(root);
+        while(!st.empty())
+        {
+            TreeNode* node=st.top();
+            st.pop();
+            result.push_back(node->val);
+            if(node->right!=nullptr) st.push(node->right);
+            if(node->left!=nullptr) st.push(node->left);
+        }
         return result;
         
     }
