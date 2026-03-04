@@ -27,11 +27,20 @@ public:
         {
             TreeNode* node=st.top();
             st.pop();
-            result.push_back(node->val);
-            if(node->left!=nullptr) st.push(node->left);
-            if(node->right!=nullptr) st.push(node->right);
+            if(node!=nullptr)
+            {
+                st.push(node);
+                st.push(nullptr);
+                if(node->right) st.push(node->right);
+                if(node->left) st.push(node->left); 
+            }
+            else
+            {
+                node=st.top();
+                st.pop();
+                result.push_back(node->val);
+            }
         }
-        reverse(result.begin(),result.end());
         return result;
     }
 };
