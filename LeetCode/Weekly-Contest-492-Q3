@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool issorted(const string& s)
+    {
+        int n=s.size();
+        for(int i=1;i<n;i++)
+        {
+            if(s[i]<s[i-1]) return 0;
+        }
+        return 1;
+    }
+    int minOperations(string s) {
+        int n=s.size();
+        if(issorted(s)) return 0;
+        string s1=s;
+        string s2=s;
+        sort(s1.begin(),s1.end()-1);
+        sort(s2.begin()+1,s2.end());
+        if(issorted(s1)||issorted(s2)) return 1;
+        if(s1[0]>s1[n-1]&&s2[0]>s2[n-1])
+        {
+            if(n==2) return -1;
+            else return 3;
+        }
+        return 2;
+    }
+};©leetcode
