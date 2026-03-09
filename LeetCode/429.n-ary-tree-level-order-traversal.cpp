@@ -27,12 +27,12 @@ public:
 
 class Solution {
 public:
-    vector<vector<int>> levelOrder(Node root) {
+    vector<vector<int>> levelOrder(Node*root) {
         vector<vector<int>>result;
         if(root==nullptr) return result;
         queue<Node*>q;
         q.push(root);
-        while(!q.empty)
+        while(!q.empty())
         {
             vector<int>v;
             int n=q.size();
