@@ -26,16 +26,16 @@ public:
         while(!que.empty())
         {
             int size=que.size();
-            int max=INT_MIN;
+            int max_val=INT_MIN;
             for(int i=0;i<size;i++)
             {
                 TreeNode* cur=que.front();
                 que.pop();
-                if(max<cur->val) max=cur->val;
+                max_val=max(max_val,cur->val);
                 if(cur->left) que.push(cur->left);
                 if(cur->right) que.push(cur->right);
             }
-            result.push_back(max);
+            result.push_back(max_val);
         }
         return result;
         
