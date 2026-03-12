@@ -19,25 +19,16 @@
 class Solution {
 public:
     int minDepth(TreeNode* root) {
-        queue<TreeNode*>que;
-        int mindepth=0;
-        if(root==nullptr) return mindepth;
-        que.push(root);
-        while(!que.empty())
+        if(root==nullptr) return 0;
+        if(root->left==nullptr&&root->right!=nullptr)
         {
-            int size=que.size();
-            mindepth++;
-            for(int i=0;i<size;i++)
-            {
-                TreeNode* cur=que.front();
-                que.pop();
-                if(cur->left==nullptr&&cur->right==nullptr) return mindepth;
-                if(cur->left) que.push(cur->left);
-                if(cur->right) que.push(cur->right);
-            }
+            return 1+minDepth(root->right);
         }
-        return mindepth;
-        
+        if(root->left!=nullptr&&root->right==nullptr)
+        {
+            return 1+minDepth(root->left);
+        }
+        return 1+min(minDepth(root->left),minDepth(root->right));
     }
 };
 // @lc code=end
