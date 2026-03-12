@@ -1,23 +1,27 @@
 class Solution {
 public:
     Node* connect(Node* root) {
-        queue<Node*>que;
         if(root==nullptr) return nullptr;
-        que.push(root);
-        while(!que.empty())
+        Node* cur=root;
+        while(cur!=nullptr)
         {
-            int size=que.size();
-            for(int i=0;i<size;i++)
+            Node dummy(0);
+            Node* tail=&dummy;
+            while(cur!=nullptr)
             {
-                Node* cur=que.front();
-                que.pop();
-                if(i<size-1) 
+                if(cur->left!=nullptr)
                 {
-                    cur->next=que.front();
+                    tail->next=cur->left;
+                    tail=tail->next;
                 }
-                if(cur->left) que.push(cur->left);
-                if(cur->right) que.push(cur->right);
+                if(cur->right!=nullptr)
+                {
+                    tail->next=cur->right;
+                    tail=tail->next;
+                }
+                cur=cur->next;
             }
+            cur=dummy->next;
         }
         return root;
         
