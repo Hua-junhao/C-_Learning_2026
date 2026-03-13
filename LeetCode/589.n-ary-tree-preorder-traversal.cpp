@@ -27,18 +27,18 @@ public:
 
 class Solution {
 public:
-    vector<int>result;
-    void traversal(Node*root)
+    void traversal(Node*root,vector<int>&result)
     {
         if(root==nullptr) return;
         result.push_back(root->val);
         for(Node*cur:root->children)
         {
-            traversal(cur);
+            traversal(cur,result);
         }
     }
     vector<int> preorder(Node* root) {
-        traversal(root);
+        vector<int>result;
+        traversal(root,result);
         return result;
     }
 };
