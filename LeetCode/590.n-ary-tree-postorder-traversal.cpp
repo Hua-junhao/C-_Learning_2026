@@ -27,18 +27,25 @@ public:
 
 class Solution {
 public:
-    void traversal(Node*root,vector<int>&result)
-    {
-        if(root==nullptr) return;
-        for(Node*cur:root->children)
-        {
-            traversal(cur,result);
-        }
-        result.push_back(root->val);
-    }
     vector<int> postorder(Node* root) {
         vector<int>result;
-        traversal(root,result);
+        stack<Node*>sta;
+        if(root==nullptr) return result;
+        sta.push(root);
+        while(!sta.empty())
+        {
+            Node*cur=sta.top();
+            sta.pop();
+            result.push_back(cur->val);
+            for(Node* ccur:cur->children)
+            {
+                if(ccur!=nullptr)
+                {
+                    sta.push(ccur);
+                }
+            }
+        }
+        reverse(result.begin(),result.end());
         return result;
     }
 };
