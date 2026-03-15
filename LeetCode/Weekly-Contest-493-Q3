@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int longestArithmetic(vector<int>& nums) {
+        int n=nums.size();
+        if(n<=3) return n;
+        int max=2;
+        int i=0;
+        while(i<n-2)
+        {
+            int len=2;
+            bool flag=1;
+            vector<int>newnums=nums;
+            int k=i;
+            
+            while(k<n-2)
+            {
+                if(newnums[k+2]+newnums[k]==newnums[k+1]*2)
+                {
+                    len++;
+                }
+                else if(flag)
+                {
+                    newnums[k+2]=newnums[k]*2-newnums[k+1];
+                    flag=0;
+                    i=k+1;
+                    len++;
+                }
+                else
+                {
+                    break;
+                }
+                k++;
+            }
+            if(len>max) max=len;
+            if(max>n-i) break;
+        }
+        return max;
+    }
+};©leetcode
