@@ -18,19 +18,23 @@
  */
 class Solution {
 public:
-    void coutlen(int &n,TreeNode*cur)
-    {
-        if(cur==nullptr) return;
-        if(cur->left) n++;
-        if(cur->right) n++;
-        coutlen(n,cur->left);
-        coutlen(n,cur->right);
-    }
     int countNodes(TreeNode* root) {
-        int n=1;
         if(root==nullptr) return 0;
-        coutlen(n,root);
-        return n;
+        TreeNode* left=root->left;
+        TreeNode* right=root->right;
+        int l=0,r=0;
+        while(left)
+        {
+            l++;
+            left=left->left;
+        }
+        while(right)
+        {
+            r++;
+            right=right->right;
+        }
+        if(l==r) return (1<<l+1)-1;
+        return countNodes(root->left)+countNodes(root->right)+1;
     }
 };
 // @lc code=end
