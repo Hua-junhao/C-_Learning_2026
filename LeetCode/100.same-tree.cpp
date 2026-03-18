@@ -18,23 +18,10 @@
  */
 class Solution {
 public:
-    bool traveral(TreeNode* p,TreeNode* q)
-    {
-        if(p==nullptr&&q==nullptr)
-        {
-            return true;
-        }
-        else if(p==nullptr||q==nullptr||p->val!=q->val)
-        {
-            return false;
-        }
-        else
-        {
-            return traveral(p->left,q->left)&&traveral(p->right,q->right);
-        }
-    }
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        return traveral(p,q);
+        if(!p && !q) return true;
+        if(!p || !q || p->val!=q->val ) return false;
+        return isSameTree(q->left,p->left)&&isSameTree(q->right,p->right);
     }
 };
 // @lc code=end
