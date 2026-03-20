@@ -3,37 +3,37 @@ public:
     int longestArithmetic(vector<int>& nums) {
         int n=nums.size();
         if(n<=3) return n;
-        int max=2;
-        int i=0;
-        while(i<n-2)
+        vector<int>diff(n-1);
+        for(int i=0;i<n-1;i++)
         {
-            int len=2;
-            bool flag=1;
-            vector<int>newnums=nums;
-            int k=i;
-            
-            while(k<n-2)
-            {
-                if(newnums[k+2]+newnums[k]==newnums[k+1]*2)
-                {
-                    len++;
-                }
-                else if(flag)
-                {
-                    newnums[k+2]=newnums[k]*2-newnums[k+1];
-                    flag=0;
-                    i=k+1;
-                    len++;
-                }
-                else
-                {
-                    break;
-                }
-                k++;
-            }
-            if(len>max) max=len;
-            if(max>n-i) break;
+            diff[i]=nums[i+1]-nums[i];
         }
-        return max;
+        vector<int>left_len(n-1,1),right_len(n-1,1);
+        int m=n-1;
+        for(int i=1;i<m;i++)
+        {
+            if(diff[i]==diff[i-1]) left_len[i]=left_len[i-1]+1;
+        }
+        for(int i=m-2;i>=0;i--)
+        {
+            if(diff[i]==diff[i+1]) right_len[i]=right_len[i+1]+1;
+        }
+        int ans=0;
+        for(int i=0;i<m;i++) 
+        {
+            ans=max(ans,left_len[i]+1);
+            ans=max(ans, right_len[i] + 1);
+        }
+        for(int i=0;i<m-1;i++)
+        {
+            if ((diff[i] + diff[i+1]) % 2 == 0) {
+                int d = (diff[i] + diff[i+1]) / 2;
+                int current_len = 2; 
+                if (i > 0 && diff[i-1] == d) current_len += left_len[i-1];
+                if (i < m - 2 && diff[i+2] == d) current_len += right_len[i+2];
+                ans=max(ans,current_len);
+            }
+        }
+        return min(n,ans+1);
     }
 };©leetcode
