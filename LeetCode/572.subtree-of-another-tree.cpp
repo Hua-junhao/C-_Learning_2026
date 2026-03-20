@@ -26,11 +26,7 @@ public:
     }
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
         if(root==nullptr) return false;
-        if(root->val==subRoot->val)
-        {
-            if(compare(root,subRoot)) return true;
-        }
-        return isSubtree(root->left,subRoot)||isSubtree(root->right,subRoot); 
+        return compare(root,subRoot)||isSubtree(root->left,subRoot)||isSubtree(root->right,subRoot); 
     }
 };
 // @lc code=end
