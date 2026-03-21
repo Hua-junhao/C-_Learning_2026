@@ -20,6 +20,7 @@ class Solution {
 public:
     void findpath(TreeNode*cur,int targetSum,vector<int>&v,vector<vector<int>>&result)
     {
+        if(!cur) return;
         v.push_back(cur->val);
         targetSum-=cur->val;
         if(!cur->left && !cur->right)
