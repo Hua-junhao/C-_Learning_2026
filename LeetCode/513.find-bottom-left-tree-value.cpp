@@ -18,23 +18,21 @@
  */
 class Solution {
 public:
-    int findBottomLeftValue(TreeNode* root) {
-        if(!root) return 0;
-        queue<TreeNode*>que;
-        que.push(root);
-        int result;
-        while(!que.empty())
+    int maxdepth=-1;
+    int result=0;
+    void dfs(TreeNode* cur,int depth)
+    {
+        if(!cur) return;
+        if(depth>maxdepth)
         {
-            int n=que.size();
-            result=que.front()->val;
-            for(int i=0;i<n;i++)
-            {
-                TreeNode* cur=que.front();
-                que.pop();
-                if(cur->left)que.push(cur->left);
-                if(cur->right)que.push(cur->right);
-            }
+            maxdepth=depth;
+            result=cur->val;
         }
+        dfs(cur->left,depth+1);
+        dfs(cur->right,depth+1);
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        dfs(root,0);
         return result;
     }
 };
