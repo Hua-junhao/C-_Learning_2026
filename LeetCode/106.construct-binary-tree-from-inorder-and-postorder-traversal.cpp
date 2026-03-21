@@ -18,29 +18,21 @@
  */
 class Solution {
 public:
-    TreeNode* traversal(vector<int>&inorder,vector<int>postorder)
+    unordered_map<int, int> map; 
+    TreeNode* traversal(vector<int>& inorder, int inBegin, int inEnd, vector<int>& postorder, int postBegin, int postEnd)
     {
-        if(postorder.size()==0) return NULL;
-        int val=postorder[postorder.size()-1];
-        TreeNode* root=new TreeNode(val);
-        if(postorder.size()==1) return root;
-        int index=0;
-        for(index=0;index<inorder.size();++index)
-        {
-            if(inorder[index]==val) break;
-        }
-        vector<int>leftinorder(inorder.begin(),inorder.begin()+index);
-        vector<int>rightinorder(inorder.begin()+index+1,inorder.end());
-        vector<int>leftpostorder(postorder.begin(),postorder.begin()+leftinorder.size());
-        vector<int>rightpostorder(postorder.begin()+leftpostorder.size(),postorder.end()-1);
-        root->left=traversal(leftinorder,leftpostorder);
-        root->right=traversal(rightinorder,rightpostorder);
+        if (postBegin >= postEnd) return nullptr;
+        int rootVal = postorder[postEnd - 1];
+        TreeNode* root = new TreeNode(rootVal);
+        int delimiterIndex = map[rootVal];
+        root->left = traversal(inorder, inBegin, delimiterIndex, postorder, postBegin, postBegin + (delimiterIndex - inBegin));
+        root->right = traversal(inorder, delimiterIndex + 1, inEnd, postorder, postBegin + (delimiterIndex - inBegin), postEnd - 1);
         return root;
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        if(inorder.size()==0) return NULL;
-        return traversal(inorder,postorder);
-        
+        map.clear();
+        for (int i = 0; i < inorder.size(); i++) map[inorder[i]] = i;
+        return traversal(inorder, 0, inorder.size(), postorder, 0, postorder.size());  
     }
 };
 // @lc code=end
