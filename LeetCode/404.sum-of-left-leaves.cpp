@@ -18,15 +18,15 @@
  */
 class Solution {
 public:
-    int sum_left(TreeNode*cur,bool isleft)
-    {
-        if(!cur) return 0;
-        if(!cur->left&&!cur->right&&isleft) return cur->val;
-        return sum_left(cur->left,true)+sum_left(cur->right,false);
-    }
     int sumOfLeftLeaves(TreeNode* root) {
-        int result=sum_left(root,false);
-        return result;
+        if(!root) return 0;
+        int s=0;
+        if(root->left && !root->left->left && !root->left->right)
+        {
+            s=root->left->val;
+        }
+        return s+sumOfLeftLeaves(root->left)+sumOfLeftLeaves(root->right);
+
     }
 };
 // @lc code=end
