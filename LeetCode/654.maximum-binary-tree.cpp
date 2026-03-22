@@ -18,22 +18,23 @@
  */
 class Solution {
 public:
-    TreeNode* traversal(vector<int>&nums,int begin,int end)
-    {
-        if(begin>=end) return nullptr;
-        int maxindex=begin;
-        for(int i=begin+1;i<end;++i)
-        {
-            if(nums[i]>nums[maxindex]) maxindex=i;
-        }
-        TreeNode* cur=new TreeNode(nums[maxindex]);
-        cur->left=traversal(nums,begin,maxindex);
-        cur->right=traversal(nums,maxindex+1,end);
-        return cur;
-    }
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        TreeNode* root=traversal(nums,0,nums.size());
-        return root;    
+        vector<TreeNode*>stk;
+        for(int i:nums)
+        {
+            TreeNode* cur=new TreeNode(i);
+            while(!stk.empty()&&stk.back()->val<i)
+            {
+                cur->left=stk.back();
+                stk.pop_back();
+            }
+            if(!stk.empty())
+            {
+                stk.back()->right=cur;
+            }
+            stk.push_back(cur);
+        }  
+        return stk.front();
     }
 };
 // @lc code=end
