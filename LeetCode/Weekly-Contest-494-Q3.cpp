@@ -1,11 +1,12 @@
 class Solution {
 public:
     int minRemovals(vector<int>& nums, int target) {
-        vector<int>dp(16384,-1);
-        dp[0]=0;
+        array<int, 16384> dp;
+        dp.fill(-1);
+        dp[0] = 0;
         for(int i:nums)
         {
-            vector<int>next_dp=dp;
+            array<int,16384>next_dp=dp;
             for(int j=0;j<dp.size();j++)
             {
                 if(dp[j]!=-1)
@@ -15,8 +16,6 @@ public:
             }
             dp=next_dp;
         }
-        if(dp[target]==-1) return -1;
-        return nums.size()-dp[target];
-        
+        return dp[target] == -1 ? -1 : nums.size() - dp[target];        
     }
 };©leetcode
