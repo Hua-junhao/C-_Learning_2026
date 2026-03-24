@@ -18,23 +18,29 @@
  */
 class Solution {
 public:
-    void traversal(TreeNode*root,unordered_map<int,int>&map,int &max)
+    void traversal(TreeNode*root,TreeNode*&pre,vector<int>&v,int&count,int &max)
     {
         if(!root) return;
-        map[root->val]++;
-        if(map[root->val]>max) max=map[root->val];
-        traversal(root->left,map,max);
-        traversal(root->right,map,max);
+        traversal(root->left,pre,v,count,max);
+        if(pre==nullptr) count=1;
+        else if(pre->val==root->val) count++;
+        else count=1;
+        pre=root;
+        if(count==max) v.push_back(root->val);
+        else if(count>max)
+        {
+            v.clear();
+            max=count;
+            v.push_back(root->val);
+        }
+        traversal(root->right,pre,v,count,max);
     }
     vector<int> findMode(TreeNode* root) {
-        unordered_map<int,int>map;
-        int max=0;
-        traversal(root,map,max);
         vector<int>v;
-        for(auto it=map.begin();it!=map.end();++it)
-        {
-            if(it->second==max) v.push_back(it->first);
-        }
+        int max=0;
+        int count=0;
+        TreeNode* pre=nullptr;
+        traversal(root,pre,v,count,max);
         return v;
         
     }
