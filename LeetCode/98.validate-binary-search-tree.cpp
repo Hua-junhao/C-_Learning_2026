@@ -18,22 +18,21 @@
  */
 class Solution {
 public:
-    vector<int>v;
-    void traversal(TreeNode*root)
-    {
-        if(!root) return;
-        traversal(root->left);
-        v.push_back(root->val);
-        traversal(root->right);
+    bool validate(TreeNode* node, TreeNode*& prev) {
+        if (!node) return true; 
+        // 左
+        if (!validate(node->left, prev)) return false;
+        // 中
+        if (prev != nullptr && prev->val >= node->val) {
+            return false;
+        }
+        prev = node;
+        // 右
+        return validate(node->right, prev);
     }
     bool isValidBST(TreeNode* root) {
-        traversal(root);
-        for(int i=1;i<v.size();++i)
-        {
-            if(v[i-1]>=v[i]) return false;
-        }
-        return true;
-        
+        TreeNode* prev=nullptr;
+        return validate(root,prev);
     }
 };
 // @lc code=end
