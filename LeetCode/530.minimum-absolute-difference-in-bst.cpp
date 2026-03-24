@@ -19,17 +19,17 @@
 class Solution {
 public:
     int mindiff=INT_MAX;
-    void validate(TreeNode* node, TreeNode*& prev) {
+    void validate(TreeNode* node, TreeNode*& prev,int &mindiff) {
         if (!node) return; 
-        validate(node->left, prev);
-        if(prev != nullptr) mindiff=min(abs(prev->val-node->val),mindiff);
+        validate(node->left, prev,mindiff);
+        if(prev != nullptr) mindiff=min(node->val-prev->val,mindiff);
         prev = node;
-        validate(node->right, prev);
-        return;
+        validate(node->right, prev,mindiff);
     }
     int getMinimumDifference(TreeNode* root) {
         TreeNode* prev=nullptr;
-        validate(root,prev);
+        int mindiff=INT_MAX;
+        validate(root,prev,mindiff);
         return mindiff;
     }
 };
