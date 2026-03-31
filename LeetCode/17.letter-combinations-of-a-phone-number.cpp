@@ -7,33 +7,30 @@
 // @lc code=start
 class Solution {
 public:
-    vector<string>result;
-    void func(const vector<string>&str,int i,int n,string& s)
+    void backtracking(string lettermap[],string&digits,int index,string&path,vector<string>&result)
     {
-        if(i==n)
+        if(index==digits.size())
         {
-            result.push_back(s);
+            result.push_back(path);
             return;
         }
-        for(char c:str[i])
+        string s=lettermap[digits[index]-'2'];
+        for(int i=0;i<s.size();++i)
         {
-            s.push_back(c);
-            func(str,i+1,n,s);
-            s.pop_back();
+            path.push_back(s[i]);
+            backtracking(lettermap,digits,index+1,path,result);
+            path.pop_back();
         }
 
     }
     vector<string> letterCombinations(string digits) {
-        string arr[]={"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        int n=digits.size();
-        vector<string>str;
-        for(int i=0;i<n;i++)
-        {
-            str.push_back(arr[digits[i]-'2']);
-        }
-        string s="";
-        func(str,0,n,s);
-        return result;    
+        string lettermap[]={"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        vector<string>result;
+        if (digits.empty()) return result;
+        string path;
+        int index=0;
+        backtracking(lettermap,digits,index,path,result);
+        return result;   
     }
 };
 // @lc code=end
