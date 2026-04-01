@@ -7,35 +7,29 @@
 // @lc code=start
 class Solution {
 public:
-    vector<vector<int>>result;
-    vector<int>v;
-    void func(vector<int>& candidates,int target,int i)
+    void func(vector<int>& candidates,int target,int startIndex,vector<int>&path,vector<vector<int>>&result)
     {
         if(target==0)
         {
-           result.push_back(v);
+           result.push_back(path);
            return; 
         }
-        if(target<0)
+        for(int i=startIndex;i<candidates.size();++i)
         {
-            return;
-        }
-        for(int j=i;j<candidates.size();j++)
-        {
-            if(candidates[j]>target)
+            if(candidates[i]>target)
             {
-                return; 
+                break; 
             }
-            v.push_back(candidates[j]);
-            func(candidates,target-candidates[j],j);
-            v.pop_back();
+            path.push_back(candidates[i]);
+            func(candidates,target-candidates[i],i,path,result);
+            path.pop_back();
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        result.clear();
-        v.clear();
+        vector<vector<int>>result;
+        vector<int>path;
         sort(candidates.begin(),candidates.end());
-        func(candidates,target,0);
+        func(candidates,target,0,path,result);
         return result;
     }
 };
