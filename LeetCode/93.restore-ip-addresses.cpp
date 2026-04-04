@@ -10,6 +10,7 @@ public:
     bool isValid(string& s,int startIndex,int endIndex)
     {
         if(startIndex>endIndex) return false;
+        if(endIndex-startIndex > 2) return false;
         if(startIndex!=endIndex && s[startIndex]=='0') return false;
         int sum=0;
         for(int i=startIndex;i<=endIndex;++i)
@@ -30,7 +31,7 @@ public:
             }
             return;
         }
-        for(int i=startIndex;i<s.size();++i)
+        for(int i=startIndex;i<s.size() && i<startIndex+3;++i)
         {
             if(isValid(s,startIndex,i))
             {
@@ -48,6 +49,7 @@ public:
     }
     vector<string> restoreIpAddresses(string s) {
         vector<string>result;
+        if(s.size()<4||s.size()>12) return result;
         backtracking(0,0,s,result);
         return result;
         
