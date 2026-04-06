@@ -8,7 +8,7 @@
 class Solution {
 public:
     int mySqrt(int x) {
-        long long  left=1,right=x;
+        int left=1,right=x;
         int result,mid;
         if(x==0||x==1) return x;
         while(left<=right)
@@ -19,10 +19,9 @@ public:
             else
             {
                 left=mid+1;
-                result=mid;
             }
         }
-        return result;
+        return right;
     }
 };
 // @lc code=end
