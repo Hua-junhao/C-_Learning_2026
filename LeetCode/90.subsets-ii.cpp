@@ -7,10 +7,9 @@
 // @lc code=start
 class Solution {
 public:
-    void backtracking(int startIndex,vector<vector<int>>&result,vector<int>&path,vector<int>&nums)
+    void backtracking(int startIndex,vector<vector<int>>&result,vector<int>&path,const vector<int>&nums)
     {
         result.push_back(path);
-        if(startIndex==nums.size()) return;
         for(int i=startIndex;i<nums.size();++i)
         {
             if(i>startIndex&&nums[i]==nums[i-1]) continue;
