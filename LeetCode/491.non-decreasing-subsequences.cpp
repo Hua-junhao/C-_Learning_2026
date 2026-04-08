@@ -13,11 +13,11 @@ public:
         {
             result.push_back(path);
         }
-        unordered_set<int>uset;
+        int used[201]={0};
         for(int i=startIndex;i<nums.size();++i)
         {
-            if((path.size()>0&&nums[i]<path[path.size()-1]) || uset.find(nums[i])!=uset.end()) continue;
-            uset.insert(nums[i]);
+            if((path.size()>0&&nums[i]<path[path.size()-1]) || used[nums[i]+100]==1) continue;
+            used[nums[i]+100]=1;
             path.push_back(nums[i]);
             backtracking(i+1,nums,result,path);
             path.pop_back();
