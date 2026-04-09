@@ -7,28 +7,23 @@
 // @lc code=start
 class Solution {
 public:
-    void backtracking(vector<int>&nums,vector<vector<int>>&result,vector<int>&path,int (&used)[21])
+    void backtracking(vector<int>&nums,vector<vector<int>>&result,int first)
     {
-        if(path.size()==nums.size())
+        if(first==nums.size())
         {
-            result.push_back(path);
+            result.push_back(nums);
             return;
         }
-        for(int i=0;i<nums.size();++i)
+        for(int i=first;i<nums.size();++i)
         {
-            if(used[nums[i]+10]==1) continue;
-            path.push_back(nums[i]);
-            used[nums[i]+10]=1;
-            backtracking(nums,result,path,used);
-            path.pop_back();
-            used[nums[i]+10]=0;
+           swap(nums[first],nums[i]);
+           backtracking(nums,result,first+1);
+           swap(nums[first],nums[i]);
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        int used[21]={0};
-        vector<int>path;
         vector<vector<int>>result;
-        backtracking(nums,result,path,used);
+        backtracking(nums,result,0);
         return result;
         
     }
