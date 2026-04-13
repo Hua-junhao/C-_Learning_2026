@@ -1,14 +1,10 @@
 class Solution {
 public:
     vector<int> findDegrees(vector<vector<int>>& matrix) {
-        vector<int>result;
-        result.resize(matrix.size());
+        vector<int> result(matrix.size(), 0);
         for(int i=0;i<matrix.size();++i)
         {
-            for(int j=0;j<matrix.size();++j)
-            {
-                if(matrix[i][j]==1) result[i]++;
-            }
+            result[i] = count(matrix[i].begin(), matrix[i].end(), 1); 
         }
         return result;
         
