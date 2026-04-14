@@ -20,24 +20,18 @@ public:
             }
             if(map.find(sum-2)!=map.end())
             {
-                for(int idx=0;idx<map[sum-2].size();++idx)
-                {
-                    if(j-map[sum-2][idx]<=num1*2)
-                    {
-                        maxlen=max(j-map[sum-2][idx],maxlen);
-                        break;
-                    }
+                auto& vec = map[sum - 2];
+                auto it = lower_bound(vec.begin(), vec.end(), j - num1 * 2);
+                if (it != vec.end()) {
+                    maxlen = max(maxlen, j - *it);
                 }
             }
             if(map.find(sum+2)!=map.end())
             {
-                for(int idx=0;idx<map[sum+2].size();++idx)
-                {
-                    if(j-map[sum+2][idx]<=num2*2)
-                    {
-                        maxlen=max(j-map[sum+2][idx],maxlen);
-                        break;
-                    }
+                auto& vec = map[sum + 2];
+                auto it = lower_bound(vec.begin(), vec.end(), j - num2 * 2);
+                if (it != vec.end()) {
+                    maxlen = max(maxlen, j - *it);
                 }
             }
             map[sum].push_back(j);
