@@ -9,10 +9,13 @@ public:
             if(2*i>=sum) return result;
         }
         double pi=acos(-1.0);
-        double A=acos((b*b+c*c-a*a)/(2.0*c*b))*(180.0/pi),B=acos((a*a+c*c-b*b)/(2.0*a*c))*(180.0/pi),C=acos((a*a+b*b-c*c)/(2.0*a*b))*(180.0/pi);
+        double cosA = std::clamp((b*b + c*c - a*a) / (2.0 * b * c), -1.0, 1.0);
+        double cosB = std::clamp((a*a + c*c - b*b) / (2.0 * a * c), -1.0, 1.0); 
+        double A = acos(cosA) * (180.0 / pi);
+        double B = acos(cosB) * (180.0 / pi);
         result.push_back(A);
         result.push_back(B);
-        result.push_back(180.0-A-B);
+        result.push_back(180.0 - A - B);
         return result;
         
     }
