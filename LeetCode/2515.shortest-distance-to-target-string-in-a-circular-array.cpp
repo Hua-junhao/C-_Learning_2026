@@ -9,7 +9,7 @@ class Solution {
 public:
     int closestTarget(vector<string>& words, string target, int startIndex) {
         int n=words.size(),k=0,l=startIndex,r=startIndex;
-        while(k!=n)
+        while(k<=n/2)
         {
             if(words[l]==target||words[r]==target) return k;
             l=(l-1+n)%n;
