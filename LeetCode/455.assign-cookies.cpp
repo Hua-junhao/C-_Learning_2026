@@ -10,17 +10,16 @@ public:
     int findContentChildren(vector<int>& g, vector<int>& s) {
         sort(g.begin(),g.end());
         sort(s.begin(),s.end());
-        int i=g.size()-1,j=s.size()-1,k=0;
-        while(i>=0&&j>=0)
+        int child=0,cookie=0;
+        while(child<g.size()&&cookie<s.size())
         {
-            if(s[j]>=g[i])
+            if(s[cookie]>=g[child])
             {
-                k++;
-                j--;
+                child++;
             }
-            i--;
+            cookie++;
         }
-        return k;
+        return child;
         
     }
 };
