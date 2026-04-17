@@ -7,36 +7,29 @@
 // @lc code=start
 class Solution {
 public:
-    int Mirror(int i)
+    int Mirror(int num)
     {
-        string s=to_string(i);
-        int k=0;
-        for(int j=s.size()-1;j>=0;j--)
+        int rev=0;
+        while(num>0)
         {
-            if(j==s.size()&&s[j]=='0') continue;
-            k=k*10+s[j]-'0';
+            rev=rev*10+num%10;
+            num=num/10;
         }
-        return k;
+        return rev;
     }
     int minMirrorPairDistance(vector<int>& nums) {
-        vector<int>nums2;
-        nums2.resize(nums.size());
-        int result=-1;
-        for(int i=0;i<nums.size()-1;++i)
+        unordered_map<int,int>map;
+        int mindis=-1;
+        for(int i=nums.size()-1;i>=0;i--)
         {
-            nums2[i]=Mirror(nums[i]);
-        }
-        for(int i=0;i<nums.size()-1;++i)
-        {
-            for(int j=i+1;j<nums.size();++j)
+            int target = Mirror(nums[i]);
+            if(map.count(target)>0)
             {
-                if(nums[j]==nums2[i])
-                {
-                    if(result==-1||j-i<result) result=j-i;
-                }
+                if(mindis==-1||map[target]-i<mindis) mindis=map[target]-i;
             }
+            map[nums[i]]=i;
         }
-        return result;
+        return mindis;
         
     }
 };
