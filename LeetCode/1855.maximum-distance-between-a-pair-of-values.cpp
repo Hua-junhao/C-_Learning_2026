@@ -8,20 +8,18 @@
 class Solution {
 public:
     int maxDistance(vector<int>& nums1, vector<int>& nums2) {
-        int maxdis=0,i=nums1.size()-1,j=nums2.size()-1;
-        if(j<i) i=j;
-        while(i>=0&&j>=0)
+        int maxdis=0,i=0,j=0;
+        while(i<nums1.size()&&j<nums2.size())
         {
-            while(i>=0&&j>=0&&(nums1[i]>nums2[j]||i>j))
+            if(nums2[j]>=nums1[i])
             {
-                j--;
-                if(j<i) i=j;
-                if(j<0) break;
+                maxdis=max(maxdis,j-i);
+                j++;
             }
-            while(i>0&&nums1[i-1]<=nums2[j]) i--;
-            if(maxdis<j-i) maxdis=j-i;
-            i--;
-            j--;
+            else
+            {
+                i++;
+            }
         }
         return maxdis;
     }
