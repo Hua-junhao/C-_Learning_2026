@@ -9,7 +9,8 @@ class Solution {
 public:
     int maxDistance(vector<int>& nums1, vector<int>& nums2) {
         int maxdis=0,i=0,j=0;
-        while(i<nums1.size()&&j<nums2.size())
+        int m=nums1.size(),n=nums2.size();
+        while(i<m&&j<n)
         {
             if(nums2[j]>=nums1[i])
             {
