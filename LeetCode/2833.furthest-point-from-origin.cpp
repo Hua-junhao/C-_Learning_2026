@@ -8,14 +8,14 @@
 class Solution {
 public:
     int furthestDistanceFromOrigin(string moves) {
-        int l=0,r=0,m=0;
+        int diff=0,m=0;
         for(char c:moves)
         {
-            if(c=='L') l++;
-            else if(c=='R') r++;
+            if(c=='L') diff--;
+            else if(c=='R') diff++;
             else m++;
         }
-        return abs(l-r)+m;
+        return abs(diff)+m;
         
     }
 };
