@@ -8,15 +8,16 @@
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
-        int k=nums[0],n=nums.size()-1;
-        for(int i=0;i<=k;i++)
+        int max_reach=0,n=nums.size();
+        if(n<=1) return true;
+        for(int i=0;i<=max_reach;++i)
         {
-            if(i==n) return true;
-            k=max(k,i+nums[i]);
+            max_reach=max(max_reach,i+nums[i]);
+            if(max_reach>=n-1) return true;
         }
         return false;
-        
+
     }
 };
 // @lc code=end
-
+    
