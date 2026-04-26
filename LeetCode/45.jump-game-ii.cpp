@@ -13,6 +13,7 @@ public:
         for(int i=0;i<n-1;++i)
         {
             nextcover=max(nextcover,nums[i]+i);
+            if(nextcover>=n-1) return step+1;
             if(i==curcover)
             {
                 step++;
