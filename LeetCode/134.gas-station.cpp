@@ -8,20 +8,19 @@
 class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-        int n=gas.size();
-        for(int i=0;i<n;++i)
-        {
-            int rest=gas[i]-cost[i];
-            int index=(i+1)%n;
-            while(rest>=0 && index!=i)
-            {
-                rest+=gas[index]-cost[index];
-                index=(index+1)%n;
+        int current_sum = 0,total_sum = 0,start_index = 0,n=gas.size();
+        for (int i = 0; i < n; ++i) {
+            int diff = gas[i] - cost[i];
+            current_sum += diff;
+            total_sum += diff;
+            if (current_sum < 0) {
+                start_index = i + 1; 
+                current_sum = 0;     
             }
-            if(rest>=0 && index==i) return i;
         }
-        return -1;
-        
+        if (total_sum < 0) return -1;
+        return start_index;
+
     }
 };
 // @lc code=end
