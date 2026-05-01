@@ -7,7 +7,7 @@
 // @lc code=start
 class Solution {
 public:
-    bool cmp(const vector<int>&a, const vector<int>&b)
+    static bool cmp(const vector<int>&a, const vector<int>&b)
     {
         if(a[0]==b[0]) return a[1]<b[1];//身高相同，前人少在前
         return a[0]>b[0];
