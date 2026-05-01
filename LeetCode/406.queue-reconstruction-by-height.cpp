@@ -7,21 +7,20 @@
 // @lc code=start
 class Solution {
 public:
-    static bool cmp(const vector<int>&a, const vector<int>&b)
-    {
-        if(a[0]==b[0]) return a[1]<b[1];//身高相同，前人少在前
-        return a[0]>b[0];
-    }
     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
-        sort(people.begin(),people.end(),cmp);
-        vector<vector<int>>que;
-        int n=people.size();
-        for(int i=0;i<n;++i)
+        sort(people.begin(), people.end(), [](const vector<int>& a, const vector<int>& b) {
+            if (a[0] == b[0]) return a[1] < b[1];
+            return a[0] > b[0];
+        });
+        list<vector<int>>que;
+        for(const auto&person:people)
         {
-            int position=people[i][1];
-            que.insert(que.begin()+position,people[i]);
+            int position=person[1];
+            auto it= que.begin();
+            advance(it,position);
+            que.insert(it,person);
         }
-        return que;
+        return vector<vector<int>>(que.begin(),que.end());
         
     }
 };
