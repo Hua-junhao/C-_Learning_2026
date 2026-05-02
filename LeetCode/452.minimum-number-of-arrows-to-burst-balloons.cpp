@@ -10,12 +10,16 @@ public:
     int findMinArrowShots(vector<vector<int>>& points) {
         int n=points.size();
         if(n<=1) return n;
-        sort(points.begin(),points.end(),[](const vector<int>&a,const vector<int>&b){return a[0]<b[0];});
+        sort(points.begin(),points.end(),[](const vector<int>&a,const vector<int>&b){return a[1]<b[1];});
         int result=1;
+        int arrow_pos=points[0][1];
         for(int i=1;i<n;++i)
         {
-            if(points[i][0]>points[i-1][1]) result++;  
-            else points[i][1]=min(points[i][1],points[i-1][1]);
+            if(points[i][0]>arrow_pos) 
+            {
+                result++; 
+                arrow_pos=points[i][1];
+            } 
         }
         return result;
         
