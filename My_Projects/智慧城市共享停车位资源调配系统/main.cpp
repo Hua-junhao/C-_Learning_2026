@@ -57,7 +57,7 @@ bool can_allocate(const User& u, int s_idx, int s_id, const vector<pair<double, 
     return true;
 }
 
-// 问题1：MCMF (保持不变，已是全局最优)
+// 问题1：MCMF (包含结果导出)
 struct Edge { int to, cap; double cost; int rev; };
 vector<vector<Edge>> adj;
 vector<double> d_spfa;
@@ -100,6 +100,7 @@ void solve_q1(const vector<User>& users, const vector<Spot>& spots) {
         }
     }
     for (int j = 0; j < M; j++) add_edge(N + 1 + j, T, 1, 0);
+    
     int matched = 0; double total_cost = 0;
     while (spfa(S, T)) {
         matched++; total_cost += d_spfa[T];
@@ -108,47 +109,44 @@ void solve_q1(const vector<User>& users, const vector<Spot>& spots) {
             e.cap--; adj[v][e.rev].cap++;
         }
     }
-    cout << "=== 问题1 结果 (全局最优) ===\n分配用户数: " << matched << "\n平均距离: " << (matched?total_cost/matched:0) << endl;
+
+    // 导出 Q1 方案
+    ofstream out("q1_allocations.csv");
+    out << "user_id,spot_id,dist\n";
+    for (int i = 0; i < N; i++) {
+        for (auto& e : adj[i + 1]) {
+            // 在网络流图中，如果用户到车位的边容量变为0，说明匹配成功
+            if (e.to > N && e.to <= N + M && e.cap == 0) {
+                int s_idx = e.to - N - 1;
+                out << users[i].id << "," << spots[s_idx].id << "," << dist_matrix[i][s_idx] << "\n";
+                break;
+            }
+        }
+    }
+    out.close();
+
+    cout << "=== 问题1 结果 (全局最优) ===" << endl;
+    cout << "分配用户数: " << matched << " / " << N << endl;
+    if (matched > 0) cout << "平均距离: " << total_cost / matched << " 米" << endl;
+    cout << "方案已保存至 q1_allocations.csv" << endl;
 }
 
-// 问题2：离线策略优化
+// 问题2：离线策略优化 (包含结果导出)
 void solve_q2(vector<User> users, const vector<Spot>& spots) {
-    // 优化后的排序策略：先按到达时间，再按持续时长
     sort(users.begin(), users.end(), [](const User& a, const User& b) {
         if (abs(a.arr - b.arr) > 1e-5) return a.arr < b.arr;
         return (a.dep - a.arr) < (b.dep - b.arr);
     });
+    
     map<int, vector<pair<double, double>>> occ;
     int matched = 0; double total_dist = 0;
-    for (const auto& u : users) {
-        int best_s_idx = -1; double min_d = INF;
-        for (int j = 0; j < spots.size(); j++) {
-            double d = dist_matrix[u.index][j];
-            if (d < min_d && can_allocate(u, j, spots[j].id, occ[spots[j].id])) {
-                min_d = d; best_s_idx = j;
-            }
-        }
-        if (best_s_idx != -1) {
-            matched++; total_dist += min_d;
-            occ[spots[best_s_idx].id].push_back({u.arr, u.dep});
-        }
-    }
-    cout << "\n=== 问题2 结果 (离线启发式优化) ===\n分配用户数: " << matched << "\n平均距离: " << (matched?total_dist/matched:0) << endl;
-}
-
-// 问题3：在线算法
-void solve_q3(vector<User> users, const vector<Spot>& spots) {
-    sort(users.begin(), users.end(), [](const User& a, const User& b) {
-        if (abs(a.arr - b.arr) > 1e-5) return a.arr < b.arr;
-        return a.id < b.id;
-    });
-    map<int, vector<pair<double, double>>> occ;
-    ofstream out("q3_allocations.csv");
+    
+    ofstream out("q2_allocations.csv");
     out << "user_id,spot_id,dist,arr,dep\n";
-    int matched = 0; double total_dist = 0;
+
     for (const auto& u : users) {
         int best_s_idx = -1; double min_d = INF;
-        for (int j = 0; j < spots.size(); j++) {
+        for (int j = 0; j < (int)spots.size(); j++) {
             double d = dist_matrix[u.index][j];
             if (d < min_d && can_allocate(u, j, spots[j].id, occ[spots[j].id])) {
                 min_d = d; best_s_idx = j;
@@ -161,41 +159,95 @@ void solve_q3(vector<User> users, const vector<Spot>& spots) {
         }
     }
     out.close();
-    cout << "\n=== 问题3 结果 (在线实时算法) ===\n服务用户数: " << matched << "\n平均距离: " << (matched?total_dist/matched:0) << endl;
+
+    cout << "\n=== 问题2 结果 (离线启发式优化) ===" << endl;
+    cout << "分配用户数: " << matched << " / " << users.size() << endl;
+    if (matched > 0) cout << "平均距离: " << total_dist / matched << " 米" << endl;
+    cout << "方案已保存至 q2_allocations.csv" << endl;
+}
+
+// 问题3：在线算法 (包含结果导出)
+void solve_q3(vector<User> users, const vector<Spot>& spots) {
+    sort(users.begin(), users.end(), [](const User& a, const User& b) {
+        if (abs(a.arr - b.arr) > 1e-5) return a.arr < b.arr;
+        return a.id < b.id;
+    });
+    
+    map<int, vector<pair<double, double>>> occ;
+    int matched = 0; double total_dist = 0;
+    
+    ofstream out("q3_allocations.csv");
+    out << "user_id,spot_id,dist,arr,dep\n";
+
+    for (const auto& u : users) {
+        int best_s_idx = -1; double min_d = INF;
+        for (int j = 0; j < (int)spots.size(); j++) {
+            double d = dist_matrix[u.index][j];
+            if (d < min_d && can_allocate(u, j, spots[j].id, occ[spots[j].id])) {
+                min_d = d; best_s_idx = j;
+            }
+        }
+        if (best_s_idx != -1) {
+            matched++; total_dist += min_d;
+            occ[spots[best_s_idx].id].push_back({u.arr, u.dep});
+            out << u.id << "," << spots[best_s_idx].id << "," << min_d << "," << u.arr << "," << u.dep << "\n";
+        }
+    }
+    out.close();
+
+    cout << "\n=== 问题3 结果 (在线实时算法) ===" << endl;
+    cout << "服务用户数: " << matched << " / " << users.size() << endl;
+    if (matched > 0) cout << "平均距离: " << total_dist / matched << " 米" << endl;
+    cout << "方案已保存至 q3_allocations.csv" << endl;
 }
 
 int main() {
     // 数据读取
     ifstream fs("spots.csv"), fl("slots.csv"), fu("users.csv");
-    if(!fs || !fl || !fu) { cout << "文件读取失败！"; return 0; }
+    if(!fs || !fl || !fu) { 
+        cout << "文件读取失败，请确保 spots.csv, slots.csv, users.csv 在当前目录下！" << endl; 
+        return 0; 
+    }
     
     vector<Spot> spots; skip_header(fs); string line;
     while(getline(fs, line)){
+        if(line.empty()) continue;
         stringstream ss(line); string v; Spot s;
-        getline(ss,v,','); s.id=stoi(v); getline(ss,v,','); s.x=stod(v); getline(ss,v,','); s.y=stod(v);
+        getline(ss,v,','); s.id=stoi(v); 
+        getline(ss,v,','); s.x=stod(v); 
+        getline(ss,v,','); s.y=stod(v);
         spots.push_back(s);
     }
     
     skip_header(fl);
     while(getline(fl, line)){
+        if(line.empty()) continue;
         stringstream ss(line); string v; int id; double st, ed;
-        getline(ss,v,','); id=stoi(v); getline(ss,v,','); st=stod(v); getline(ss,v,','); ed=stod(v);
+        getline(ss,v,','); id=stoi(v); 
+        getline(ss,v,','); st=stod(v); 
+        getline(ss,v,','); ed=stod(v);
         spot_slots_map[id].push_back({st, ed});
     }
 
-    vector<User> users; skip_header(fu); int u_idx = 0;
+    vector<User> users; skip_header(fu); int u_count = 0;
     while(getline(fu, line)){
-        stringstream ss(line); string v; User u; u.index = u_idx++;
-        getline(ss,v,','); u.id=stoi(v); getline(ss,v,','); u.dest_x=stod(v); getline(ss,v,','); u.dest_y=stod(v);
-        getline(ss,v,','); u.max_dist=stod(v); getline(ss,v,','); u.arr=stod(v); getline(ss,v,','); u.dep=stod(v);
+        if(line.empty()) continue;
+        stringstream ss(line); string v; User u; u.index = u_count++;
+        getline(ss,v,','); u.id=stoi(v); 
+        getline(ss,v,','); u.dest_x=stod(v); 
+        getline(ss,v,','); u.dest_y=stod(v);
+        getline(ss,v,','); u.max_dist=stod(v); 
+        getline(ss,v,','); u.arr=stod(v); 
+        getline(ss,v,','); u.dep=stod(v);
         users.push_back(u);
     }
 
     // 预计算距离矩阵
-    for(int i=0; i<users.size(); i++)
-        for(int j=0; j<spots.size(); j++)
+    for(int i=0; i<(int)users.size(); i++)
+        for(int j=0; j<(int)spots.size(); j++)
             dist_matrix[i][j] = calc_dist(users[i].dest_x, users[i].dest_y, spots[j].x, spots[j].y);
 
+    // 执行各问题求解
     solve_q1(users, spots);
     solve_q2(users, spots);
     solve_q3(users, spots);
