@@ -15,11 +15,11 @@ public:
         int arrow_pos=points[0][1];
         for(int i=1;i<n;++i)
         {
-            if(points[i][0]>arrow_pos) 
-            {
-                result++; 
-                arrow_pos=points[i][1];
-            } 
+            const auto& balloon = points[i]; 
+            if (balloon[0] > arrow_pos) {
+                result++;
+                arrow_pos = balloon[1];
+            }
         }
         return result;
         
