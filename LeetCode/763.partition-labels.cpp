@@ -9,17 +9,17 @@ class Solution {
 public:
     vector<int> partitionLabels(string s) {
         vector<int>result;
-        int arr[27]={0};
+        int last_pos[26]={0};
         int n=s.size();
         for(int i=0;i<n;++i)
         {
-            arr[s[i]-'a']=i;
+            last_pos[s[i]-'a']=i;
         }
         int left=0;
         int right=0;
         for(int i=0;i<n;++i)
         {
-            right=max(right,arr[s[i]-'a']);
+            right=max(right,last_pos[s[i]-'a']);
             if(i==right)
             {
                 result.push_back(right-left+1);
