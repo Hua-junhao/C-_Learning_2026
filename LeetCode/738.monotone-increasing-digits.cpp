@@ -9,20 +9,17 @@ class Solution {
 public:
     int monotoneIncreasingDigits(int n) {
         string s=to_string(n);
-        int N=s.size();
-        int flag=N;
-        for(int i=N-1;i>0;--i)
+        int len=s.size();
+        int nine_start=len;
+        for(int i=len-1;i>0;--i)
         {
             if(s[i-1]>s[i])
             {
-                flag=i;
+                nine_start=i;
                 s[i-1]--;
             }
         }
-        for(int i=flag;i<N;++i)
-        {
-            s[i]='9';
-        }
+        std::fill(s.begin() + nine_start, s.end(), '9');
         return stoi(s);
 
     }
