@@ -1,48 +1,41 @@
-/*
- * @lc app=leetcode id=968 lang=cpp
- *
- * [968] Binary Tree Cameras
- */
-
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
-public:
-    int traversal(TreeNode* cur,int &result)
-    {
-        if(cur==nullptr) return 2;//2 为有覆盖
-        int left=traversal(cur->left,result);
-        int right=traversal(cur->right,result);    
-        if(left==0||right==0)//0 为无覆盖
-        {
+private:
+    // 工业规范：定义强类型枚举，彻底消灭魔术数字 (0, 1, 2)
+    enum class State {
+        UNCOVERED,  // 0: 无覆盖
+        HAS_CAMERA, // 1: 有摄像头
+        COVERED     // 2: 有覆盖
+    };
+
+    State traversal(const TreeNode* cur, int& result) { // 加上 const 保护节点不被修改
+        // 空节点默认已被覆盖，迫使真实叶子节点变为 UNCOVERED
+        if (cur == nullptr) return State::COVERED;
+
+        State left = traversal(cur->left, result);
+        State right = traversal(cur->right, result);    
+
+        // 贪心策略 1：只要左右孩子有一个没被覆盖，当前节点必须加摄像头
+        if (left == State::UNCOVERED || right == State::UNCOVERED) {
             result++;
-            return 1;//1 为有摄像头
+            return State::HAS_CAMERA;
         }
-        else if(left==1||right==1)
-        {
-            return 2;
+        
+        // 贪心策略 2：左右孩子至少有一个摄像头，当前节点自然被覆盖
+        if (left == State::HAS_CAMERA || right == State::HAS_CAMERA) {
+            return State::COVERED;
         }
-        return 0;
+
+        // 贪心策略 3：左右孩子都处于 COVERED 状态，当前节点变为无覆盖，交由父节点处理
+        return State::UNCOVERED;
     }
+
+public:
     int minCameraCover(TreeNode* root) {
-        int result=0;
-        if(traversal(root,result)==0)//root 无覆盖
-        {
+        int result = 0;
+        // 根节点特判：如果遍历完根节点依然是 UNCOVERED，只能在根节点硬加一个
+        if (traversal(root, result) == State::UNCOVERED) {
             result++;
         }
         return result;
-        
     }
 };
-// @lc code=end
-
