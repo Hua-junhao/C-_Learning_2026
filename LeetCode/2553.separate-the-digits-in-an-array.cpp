@@ -8,16 +8,21 @@
 class Solution {
 public:
     vector<int> separateDigits(vector<int>& nums) {
-        string s="";
-        int n=nums.size();
-        for(int i=0;i<n;++i)
-        {
-            s+=to_string(nums[i]);
-        }
         vector<int>result;
-        for(char c:s)
+        result.reserve(nums.size()*3);
+        int buff[10];
+        for(int num:nums)
         {
-            result.push_back(c-'0');
+            int idx=0;
+            while(num>0)
+            {
+                buff[idx++]=num%10;
+                num/=10;
+            }
+            for(int i=idx-1;i>=0;--i)
+            {
+                result.push_back(buff[i]);
+            }
         }
         return result;
         
