@@ -8,15 +8,16 @@
 class Solution {
 public:
     int integerBreak(int n) {
-        vector<int>dp(n+1,1);
-        for(int i=2;i<=n;++i)
+        if(n==2) return 1;
+        if(n==3) return 2;
+        int product=1;
+        while(n>4)
         {
-            for(int j=1;j<=i/2;++j)
-            {
-                dp[i]=max(dp[i],max((i-j)*j,dp[i-j]*j));
-            }
+            product*=3;
+            n-=3;
         }
-        return dp[n];
+        product*=n;
+        return product;
         
     }
 };
