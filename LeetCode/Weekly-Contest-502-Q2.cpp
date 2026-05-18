@@ -5,7 +5,7 @@ public:
         long long right = round(pow(r, 1.0 / k));
         while(pow(left,k)<l) left++;
         while(pow(right,k)>r) right--;
-        return right-left+1;
+        return (right >= left) ? (right - left + 1) : 0;    
 
     }
 };©leetcode
