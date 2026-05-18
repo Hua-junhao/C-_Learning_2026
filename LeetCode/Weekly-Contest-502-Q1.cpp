@@ -4,7 +4,7 @@ public:
         int n=s.size();
         for(int i=0;i<n-1;++i)
         {
-            if(abs((s[i]-'0')-(s[i+1]-'0'))>2) return false;
+            if(abs(s[i]-s[i+1])>2) return false;
         }
         return true;
         
