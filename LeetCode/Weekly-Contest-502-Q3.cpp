@@ -12,8 +12,9 @@ public:
             int j = p.second;
             if (i >= r1 && i <= r2 && j >= c1 && j <= c2) 
             {
-                if ((i == row + x || i == row - x) && (j == col + x || j == col - x)) continue;
-                return false; 
+                if (!((i == row + x || i == row - x) && (j == col + x || j == col - x))) {
+                    return false;
+                } 
             }
         }
         for(int i=r1;i<=r2;++i)
@@ -43,19 +44,24 @@ public:
                 maxnum=max(maxnum,matrix[i][j]);
             }
         }   
-        for(int i=0; i<n1; ++i)
-        {
+        if(maxnum>0){
+            for(int i=0; i<n1; ++i)
+            {
             for(int j=0; j<n2; ++j)
             {
                 if (matrix[i][j] == maxnum) max_coords.push_back({i, j});
+            }
             }
         }   
         for(int i=0;i<n1;++i)
         {
             for(int j=0;j<n2;++j)
             {
-                if(matrix[i][j]==0) continue;
-                if(matrix[i][j]==maxnum||isValid(matrix,i,j,matrix[i][j],n1,n2,max_coords)) result++;
+                if(matrix[i][j]>0)
+                {
+                    if(matrix[i][j]==maxnum||isValid(matrix,i,j,matrix[i][j],n1,n2,max_coords)) result++;
+                }
+                
             }
         }
         return result;
