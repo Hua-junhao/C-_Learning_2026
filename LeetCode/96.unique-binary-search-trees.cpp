@@ -11,7 +11,6 @@ public:
                 dp[i]+=dp[j]*dp[i-j-1];
             }
         }
-        return dp[n];
-        
+        return dp[n]; 
     }
 };
