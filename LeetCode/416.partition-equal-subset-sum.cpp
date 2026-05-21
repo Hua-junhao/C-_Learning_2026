@@ -7,18 +7,18 @@ public:
             sum+=i;
         }
         if(sum%2==1) return false;
-        sum/=2;
-        sort(nums.begin(),nums.end());
-        int n=nums.size();
-        vector<int>dp(sum+1,0);
-        for(int i=0;i<n;++i)
+        int target=sum/2;
+        vector<int>dp(target+1,0);
+        for(int num:nums)
         {
-            for(int j=sum;j>=nums[i];--j)
+            if(num>target) return false;
+            for(int j=target;j>=num;--j)
             {
-                dp[j]=max(dp[j],dp[j-nums[i]]+nums[i]);
+                dp[j]=max(dp[j],dp[j-num]+num);
             }
+            if(dp[target]==target) return true;
         }
-        return dp[sum]==sum;
+        return dp[target]==target;
         
     }
 };
