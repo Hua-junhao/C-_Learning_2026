@@ -13,8 +13,7 @@ public:
         {
             sum+=i;
         }
-        if((target+sum)%2==1) return 0;
-        if(abs(target)>sum) return 0;
+        if(abs(target)>sum||(target+sum)%2!=0) return 0;
         int bagsize=(target+sum)/2;
         int n=nums.size();
         vector<int>dp(bagsize+1,0);
