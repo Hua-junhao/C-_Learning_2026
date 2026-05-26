@@ -1,36 +1,16 @@
-/*
- * @lc app=leetcode id=3120 lang=cpp
- *
- * [3120] Count the Number of Special Characters I
- */
-
-// @lc code=start
 class Solution {
 public:
     int numberOfSpecialChars(string word) {
-        int arr1[26]={0};
-        int arr2[26]={0};
-        int n=word.size();
-        int count=0;
-        for(int i=0;i<n;++i)
-        {
-            char c=word[i];
-            if('a'<=c && c<='z') 
-            {
-                arr1[c-'a']=1;
-            }
-            else
-            {
-                arr2[c-'A']=1;
+        int lower_mask = 0;
+        int upper_mask = 0; 
+        for (char c : word) {
+            if (islower(c)) {
+                lower_mask |= (1 << (c - 'a')); 
+            } else {
+                upper_mask |= (1 << (c - 'A'));
             }
         }
-        for(int i=0;i<26;++i)
-        {
-            if(arr1[i]==1 && arr2[i]==1) count++;
-        }
-        return count;
-        
+        int special_mask = lower_mask & upper_mask;
+        return __builtin_popcount(special_mask);
     }
 };
-// @lc code=end
-
