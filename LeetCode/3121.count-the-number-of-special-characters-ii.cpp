@@ -8,31 +8,28 @@
 class Solution {
 public:
     int numberOfSpecialChars(string word) {
-        int n=word.size();
-        int arr1[26]={0};
-        int arr2[26]={0};
+        vector<int>state(26,0);
         int count=0;
-        for(int i=0;i<n;++i)
+        for(char c:word)
         {
-            char c=word[i];
-            if('a'<=c && c<='z')
+            if(islower(c))
             {
-                arr1[c-'a']=i+1;
+                int idx=c-'a';
+                if(state[idx]==0) state[idx]=1;
+                else if(state[idx]==2) state[idx]=-1;
             }
             else
             {
-                if(arr2[c-'A']==0) arr2[c-'A']=i+1;
+                int idx=c-'A';
+                if(state[idx]==1) state[idx]=2;
+                else if(state[idx]==0)state[idx]=-1;
             }
         }
-        for(int i=0;i<26;++i)
+        for(int s:state)
         {
-            if(arr1[i]!=0 && arr2[i]!=0 && arr2[i]>arr1[i])
-            {
-                count++;
-            }
+            if(s==2) count++;
         }
         return count;
-
         
     }
 };
