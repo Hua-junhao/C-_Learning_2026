@@ -13,17 +13,19 @@ public:
         int result=INT_MAX;
         for(int i=0;i<n;++i)
         {
+            int ls=landStartTime[i];
+            int ld=landDuration[i];
             for(int j=0;j<m;++j)
             {
-                if(landStartTime[i]<waterStartTime[j])
+                int ws=waterStartTime[j];
+                int wd=waterDuration[j];
+                if(ls<ws)
                 {
-                    int time1=landDuration[i]+landStartTime[i];
-                    result=min(result,max(time1,waterStartTime[j])+waterDuration[j]);
+                    result=min(result,max(ls+ld,ws)+wd);
                 }
                 else 
                 {
-                    int time2=waterDuration[j]+waterStartTime[j];
-                    result=min(result,max(time2,landStartTime[i])+landDuration[i]);
+                    result=min(result,max(ws+wd,ls)+ld);
                 }
             }
         }
