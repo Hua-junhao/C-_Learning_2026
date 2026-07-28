@@ -8,18 +8,18 @@
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
-        vector<int>dp(target+1,0);
+        vector<unsigned int>dp(target+1,0);
         dp[0]=1;
-        for(int i=0;i<=target;++i)
+        for(int i=1;i<=target;++i)
         {
-            for(int j=0;j<nums.size();++j)
+            for(int num:nums)
             {
-                if(i-nums[j]>=0 && dp[i]<=INT_MAX-dp[i-nums[j]]){
-                    dp[i]+=dp[i-nums[j]];
+                if(i>=num){
+                    dp[i]+=dp[i-num];
                 }
             }
         }
-        return dp[target];
+        return static_cast<int>(dp[target]);
         
     }
 };
