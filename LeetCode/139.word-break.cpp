@@ -8,17 +8,27 @@
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        vector<bool>dp(s.size()+1,false);
-        dp[0]=true;
-        for(int i=1;i<=s.size();++i)
+        unordered_set<string> wordset(wordDict.begin(),wordDict.end());
+        int max_len=0;
+        for(const string& word:wordDict)
         {
-            for(int j=0;j<i;++j)
+            max_len=max(max_len,static_cast<int>(word.size()));
+        }
+        int n=s.size();
+        vector<bool>dp(n+1,false);
+        dp[0]=true;
+        for(int i=1;i<=n;++i)
+        {
+            for(int j=i-1;j>=max(0,i-max_len);--j)
             {
-                string str=s.substr(j,i-j);
-                if(find(wordDict.begin(),wordDict.end(),str)!=wordDict.end() && dp[j]) dp[i]=true;
+                if(dp[j] && wordset.count(s.substr(j,i-j))) 
+                {
+                    dp[i]=true;
+                    break;
+                }
             }
         }
-        return dp[s.size()];
+        return dp[n];
     }
 };
 // @lc code=end
