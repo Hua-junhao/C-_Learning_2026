@@ -8,10 +8,9 @@
 class Solution {
 public:
     int numSquares(int n) {
-        int amount=sqrt(n)+1;
         vector<int>dp(n+1,n);
         dp[0]=0;
-        for(int i=1;i<=amount;++i)
+        for(int i=1;i*i<=n;++i)
         {
             int k=i*i;
             for(int j=k;j<=n;++j)
