@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
     int C,N;
     cin>>C>>N;
     vector<int>dp(C+1,0);
