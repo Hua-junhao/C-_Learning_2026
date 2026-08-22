@@ -18,13 +18,17 @@
  */
 class Solution {
 public:
+    array<int,2> robtree(TreeNode*cur){
+        if(cur==nullptr) return {0,0};
+        array<int,2>left=robtree(cur->left);
+        array<int,2>right=robtree(cur->right);
+        int val0=max(left[0],left[1])+max(right[0],right[1]);
+        int val1=cur->val+left[0]+right[0];
+        return {val0,val1};
+    }
     int rob(TreeNode* root) {
-        if(root==nullptr) return 0;
-        if(root->left==nullptr && root->right==nullptr) return root->val;
-        int val1=0;
-        if(root->right!=nullptr) val1+=rob(root->right->left)+rob(root->right->right);
-        if(root->left!=nullptr) val1+=rob(root->left->left)+rob(root->left->right);
-        return max(root->val+val1,rob(root->left)+rob(root->right));    
+        array<int,2>result=robtree(root);
+        return max(result[0],result[1]);
     }
 };
 // @lc code=end
