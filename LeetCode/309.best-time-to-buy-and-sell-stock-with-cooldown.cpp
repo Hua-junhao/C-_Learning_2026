@@ -17,7 +17,7 @@ public:
             dp[0]=max(dp[0],k-price);
             dp[1]=max(dp[1],dp[0]+price);
         }
-        return max(dp[1],dp[2]);
+        return dp[1];
     }
 };
 // @lc code=end
