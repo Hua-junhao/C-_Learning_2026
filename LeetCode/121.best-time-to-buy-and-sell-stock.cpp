@@ -8,7 +8,7 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int low=INT_MAX,n=prices.size(),result=0;
+        int low=INT_MAX,result=0;
         for(int price:prices)
         {
             low=min(low,price);
