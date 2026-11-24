@@ -10,22 +10,20 @@ public:
     int numDistinct(string s, string t) {
         const int m=s.size();
         const int n=t.size();
-        vector<vector<uint64_t>>dp(m+1,vector<uint64_t>(n+1));
-        for(int i=0;i<m;++i){
-            dp[i][0]=1;
-        }
-        for(int j=1;j<n;++j){
-            dp[0][j]=0;
-        }
+        if (m < n) return 0;
+        vector<uint64_t>dp(n+1,0);
+        dp[0]=1;
         for(int i=1;i<=m;++i){
-            for(int j=1;j<=n;++j){
-                if(s[i-1]==t[j-1]){
-                    dp[i][j]=dp[i-1][j-1]+dp[i-1][j];
+            const char sc=s[i-1];
+            const int upper_bound=min(n,i);
+            const int lower_bound=max(1,n-(m-i));
+            for(int j=upper_bound;j>=lower_bound;--j){
+                if(sc==t[j-1]){
+                    dp[j]+=dp[j-1];
                 }
-                else dp[i][j]=dp[i-1][j];
             }
         }
-        return dp[m][n];
+        return dp[n];
     }
 };
 // @lc code=end
